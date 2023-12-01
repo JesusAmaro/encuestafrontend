@@ -5,8 +5,9 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import { registerUser } from '../services/UserService'
+import { loginUser, registerUser } from '../services/UserService'
 import { Spinner } from 'react-bootstrap'
+import { useAuthDispatch } from '../context/authContext'
 
 const Register = () => {
 
@@ -16,17 +17,27 @@ const Register = () => {
     const [errors, setErrors] = useState<any>({});
     const [sendingData, setSendingData] = useState(false);
 
+    const authDispatch = useAuthDispatch();
+
     const register = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try{
             setSendingData(true);
             await registerUser(name, email, password);
+            const res = await loginUser(email, password);
+            const token = res?.data.token;
+            authDispatch({
+                type: 'login',
+                token: token
+            })
             cleanAll();
-        }catch(errors: any){
-            console.log(errors);
-            setErrors(errors.response.data.errors);
+            
+        }catch(error: any){
+            //console.log(error.response.data.errors);
+            setErrors(error.response.data.errors);
+            setSendingData(false);
+            //console.log(!errors?.name);
         }
-        console.log(name+ " " + email + " " + password);
     }
 
     const cleanAll = () => {
@@ -47,20 +58,22 @@ const Register = () => {
                             <Form onSubmit={register}>
                                 <Form.Group className='mb-3' controlId='name'>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type='text' placeholder='e.g. Mario Benedetti'
-                                                  isValid={!!errors?.name} value={name} onChange={e => setName(e.target.value)}></Form.Control>
-                                    <Form.Control.Feedback type='invalid'>{errors?.name}</Form.Control.Feedback>
+                                    <Form.Control type='text' placeholder='e.g. Mario Benedetti' required
+                                                  isValid={!!errors.name} value={name} onChange={e => setName(e.target.value)}></Form.Control>
+                                    <Form.Control.Feedback type='invalid'>
+                                        { errors?.name }
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='email'>
                                     <Form.Label>Correo</Form.Label>
-                                    <Form.Control type='email' placeholder='e.g. mario.benedetti@mail.com' 
-                                                  isValid={!!errors?.email}  value={email} onChange={e => setEmail(e.target.value)}></Form.Control>
+                                    <Form.Control type='email' placeholder='e.g. mario.benedetti@mail.com' required
+                                                  isValid={!!errors.email}  value={email} onChange={e => setEmail(e.target.value)}></Form.Control>
                                     <Form.Control.Feedback type='invalid'>{errors?.email}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='password'>
                                     <Form.Label>Contraseña</Form.Label>
-                                    <Form.Control type='text' placeholder='********'
-                                                  isValid={!!errors?.password} value={password} onChange={e => setPassword(e.target.value)}></Form.Control>
+                                    <Form.Control type='password' placeholder='********' required
+                                                  isValid={!!errors.password} value={password} onChange={e => setPassword(e.target.value)}></Form.Control>
                                     <Form.Control.Feedback type='invalid'>{errors?.password}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Button type='submit'>

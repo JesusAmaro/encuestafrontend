@@ -6,6 +6,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { Spinner } from 'react-bootstrap'
+import Alert from "react-bootstrap/Alert"
+import { loginUser } from '../services/UserService'
+import { useAuthDispatch } from '../context/authContext'
 
 const Login = () => {
 
@@ -14,17 +17,32 @@ const Login = () => {
     const [error, setError] = useState("");
     const [sendingData, setSendingData] = useState(false);
 
+    const authDispatch = useAuthDispatch();
+
     const login = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try{
             setSendingData(true);
+           
+            const res = await loginUser(email, password);
+
+            console.log( res)
+            const token = res?.data.token;
+            authDispatch({
+                type: 'login',
+                token: token
+            });
             cleanAll();
-        }catch(error: any){
+        }catch(errors: any){
             console.log(error);
+            if(errors.response){
+                errors.response.status === 403 && setError("Error al iniciar sesión");
+                setError("");
+            }
             //setError(error.response.data.error);
             setSendingData(false);
         }
-        console.log(email + " " + password);
+        //console.log(email + " " + password);
     }
 
     const cleanAll = () => {
@@ -49,7 +67,7 @@ const Login = () => {
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='password'>
                                     <Form.Label>Contraseña</Form.Label>
-                                    <Form.Control type='text' placeholder='********'
+                                    <Form.Control type='password' placeholder='********'
                                                   value={password} onChange={e => setPassword(e.target.value)}></Form.Control>
                                 </Form.Group>
                                 <Button type='submit'>
@@ -62,6 +80,7 @@ const Login = () => {
                                     }
                                 </Button>
                             </Form>
+                            <Alert show={!!error} variant='danger' className='mt-4'>{error}</Alert>
                         </Card.Body>
                     </Card>
                 </Col>
