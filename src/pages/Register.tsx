@@ -59,7 +59,7 @@ const Register = () => {
                                 <Form.Group className='mb-3' controlId='name'>
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control type='text' placeholder='e.g. Mario Benedetti' required
-                                                  isValid={!!errors.name} value={name} onChange={e => setName(e.target.value)}></Form.Control>
+                                                  isInvalid={!!errors.name} value={name} onChange={e => setName(e.target.value)}></Form.Control>
                                     <Form.Control.Feedback type='invalid'>
                                         { errors?.name }
                                     </Form.Control.Feedback>
@@ -67,13 +67,13 @@ const Register = () => {
                                 <Form.Group className='mb-3' controlId='email'>
                                     <Form.Label>Correo</Form.Label>
                                     <Form.Control type='email' placeholder='e.g. mario.benedetti@mail.com' required
-                                                  isValid={!!errors.email}  value={email} onChange={e => setEmail(e.target.value)}></Form.Control>
+                                                  isInvalid={!!errors.email}  value={email} onChange={e => setEmail(e.target.value)}></Form.Control>
                                     <Form.Control.Feedback type='invalid'>{errors?.email}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className='mb-3' controlId='password'>
                                     <Form.Label>Contraseña</Form.Label>
                                     <Form.Control type='password' placeholder='********' required
-                                                  isValid={!!errors.password} value={password} onChange={e => setPassword(e.target.value)}></Form.Control>
+                                                  isInvalid={!!errors.password} value={password} onChange={e => setPassword(e.target.value)}></Form.Control>
                                     <Form.Control.Feedback type='invalid'>{errors?.password}</Form.Control.Feedback>
                                 </Form.Group>
                                 <Button type='submit'>

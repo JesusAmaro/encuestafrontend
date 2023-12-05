@@ -1,6 +1,9 @@
 import React from 'react'
 import { useAuthDispatch, useAuthState } from '../context/authContext'
-import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 
 const Navigation = () => {
@@ -27,13 +30,16 @@ const Navigation = () => {
                 </Nav>
                 <Nav className='justify-content-end'>
                     { user.isAuthenticated ? 
-                        <NavDropdown title={user.email} id='navbar-dropdown'>
-                            <NavDropdown.Item as={Link} to='/user'>
-                                Mis Encuestas
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider/>
-                            <NavDropdown.Item onClick={logout}>Cerrar Sesión</NavDropdown.Item>
-                        </NavDropdown>
+                        <>
+                            <Nav.Link as={Link} to='/createPoll'>Crear Encuesta</Nav.Link>
+                            <NavDropdown title={user.email} id='navbar-dropdown'>
+                                <NavDropdown.Item as={Link} to='/user'>
+                                    Mis Encuestas
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider/>
+                                <NavDropdown.Item onClick={logout}>Cerrar Sesión</NavDropdown.Item>
+                            </NavDropdown>
+                        </>
                         :
                         <>
                             <Nav.Link as={Link} to='/login'>Iniciar Sesión</Nav.Link>

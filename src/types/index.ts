@@ -11,3 +11,26 @@ export type Route = {
     component: any,
     routeType: RouteType
 };
+
+export type Poll = {
+    id: string,
+    errors: {},
+    content: string,
+    opened: boolean,
+    questions: Question[]
+}
+
+export type Question = {
+    id: string,
+    content: string,
+    questionOrder: number,
+    type: QuestionType,
+    answers: Answer[]
+}
+
+export type Answer = {
+    id: string,
+    content: string
+}
+
+export type QuestionType = "RADIO" | "CHECKBOX" | "SELECT";
