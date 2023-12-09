@@ -26,7 +26,6 @@ const Navigation = () => {
             <Navbar.Toggle aria-controls='navbar'></Navbar.Toggle>
             <Navbar.Collapse id='navbar'>
                 <Nav className='me-auto'>
-                    <Nav.Link as={Link} to='/'>Inicio</Nav.Link>
                 </Nav>
                 <Nav className='justify-content-end'>
                     { user.isAuthenticated ? 
@@ -42,7 +41,7 @@ const Navigation = () => {
                         </>
                         :
                         <>
-                            <Nav.Link as={Link} to='/login'>Iniciar Sesión</Nav.Link>
+                            <Nav.Link as={Link} to='/'>Iniciar Sesión</Nav.Link>
                             <Nav.Link as={Link} to='/register'>Crear Cuenta</Nav.Link>
                         </>
                     }

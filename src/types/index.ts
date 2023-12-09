@@ -34,3 +34,20 @@ export type Answer = {
 }
 
 export type QuestionType = "RADIO" | "CHECKBOX" | "SELECT";
+
+export type UserAnswer = {
+    questionId: number,
+    answer: number,
+    type: QuestionType
+}
+
+export type PollReplyDetail = {
+    questionId: number,
+    answerId: number,
+}
+
+export type PollReply = {
+    pollReplies: PollReplyDetail[],
+    user: string,
+    poll: number
+}
