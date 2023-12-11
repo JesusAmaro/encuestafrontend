@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import 'react-tooltip/dist/react-tooltip.css'
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 axios.defaults.headers.common['Accept-Language'] = 'es';
 
